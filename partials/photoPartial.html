@@ -1,0 +1,16 @@
+<div style="position: fixed;left: 0;right: 0;top: 0;bottom: 0;z-index: 1000;background-color:#808080">
+  <div ng-style="imageBgStyle"
+       hm-dragstart="onDragImageStart($event)"
+       hm-drag="onDragImage($event)"
+       hm-dragend="onDragImageEnd($event)"
+       hm-transformstart="onTransformStart($event)"
+       hm-transform="onTransform($event)"
+       hm-transformend="onTransformEnd($event)"
+       hm-tap="onTapImage($event)"
+       class="imageHolder">
+      <div id="imageView" class="imageView">
+        <img ng-src="{{ imageSrc }}" ng-mousedown="onMouseDown($event)"/>
+      </div>
+  </div>
+  <a href ng-click="close()" style="position: fixed;right: 0;top: 0">Close</a>
+</div>
