@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru" ng-app="digiletme">
 <head>
-  <title>Buse stations near your</title>
+  <title>Bus stations near your</title>
   <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" type="text/css" media="screen" href="css/bootstrap-glyphicons.css"/>
   <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
@@ -9,8 +9,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="css/docs.css"/>
 
   <link rel="stylesheet" type="text/css" media="screen" href="css/style.css"/>
-
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="image_src" href="https://lh3.googleusercontent.com/-kJY9c-IEkXY/UizFHtSMENI/AAAAAAAAhAE/gddUw_MBGYo/s0/2013-09-08_20-41-03.png" />
 
   <!--mobile-->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -57,19 +56,9 @@
           <img ng-src="{{ concat4SQImg(venue.categories[0].icon) }}" style="float: left;margin: 16px"/>
         </a>
         <h3>{{ venue.name }}</h3>
-        <!--<p>id: {{ venue.id }}</p>-->
-        <!--<p>name: {{ venue.name }}</p>-->
         <p>Address: {{ getAddressOfVenue(venue) }}, <a ng-href="{{ venue.canonicalUrl }}" target="_blank">add photos by 4sq</a></p>
-
-        <!--<p>country: {{ venue.location.country }}</p>-->
-        <!--<p>location: {{ venue.location.lat }}, {{ venue.location.lng }}</p>
-        <p>categories: {{ venue.categories[0].name }}</p>-->
-
-
-        <!--<div ng-repeat="venueImagesGroup in getVenueById(venue.id).response.venue.photos.groups">-->
-          <carousel data="getPhotosOfVenue(venue)" venue="venue" preview-width="100" preview-height="100">
-          </carousel>
-        <!--</div>-->
+        <carousel data="getPhotosOfVenue(venue)" venue="venue" preview-width="100" preview-height="100">
+        </carousel>
       </div>
     </section>
 
