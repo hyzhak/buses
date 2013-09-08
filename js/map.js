@@ -142,7 +142,9 @@ digiletme.controller('MapCtrl', ['VenuesAPI', 'Location', '$scope', '$rootScope'
     var firstPlaceToCurrentPosition = true;
     function placeToCurrentPosition() {
        return LocationService.getLocation().then(function(loc) {
-           if (firstPlaceToCurrentPosition) {
+           if (loc.hasOwnProperty('zoom')) {
+               $scope.center.zoom = loc.zoom;
+           } else if (firstPlaceToCurrentPosition) {
                firstPlaceToCurrentPosition = false;
                $scope.center.zoom =  DEF_ZOOM;
            }
