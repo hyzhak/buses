@@ -1,4 +1,4 @@
-angular.module('Location', []).factory('Location', ['SmartIP', '$q', '$rootScope', '$location', function(SmartIP, $q, $rootScope, $location) {
+angular.module('Location', []).factory('Location', ['SmartIP', '$q', '$rootScope', '$location', 'DEF_ZOOM', function(SmartIP, $q, $rootScope, $location, DEF_ZOOM) {
    'use strict';
     var api = {},
         loc;
@@ -71,7 +71,7 @@ angular.module('Location', []).factory('Location', ['SmartIP', '$q', '$rootScope
      */
     api.setLocation = function(lat, lng, zoom) {
         loc = loc || {};
-        zoom = Number(zoom || loc.zoom || 10);
+        zoom = Number(zoom || loc.zoom || DEF_ZOOM);
 
         if (loc.lat === lat
             && loc.lng === lng

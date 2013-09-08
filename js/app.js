@@ -14,6 +14,9 @@ var digiletme = angular.module('digiletme', [
         'Location'
     ]);
 
+angular.module('digiletme')
+    .constant('DEF_ZOOM', 8);
+
 digiletme
     .config(['$locationProvider', '$routeProvider', 'LocationProvider', function($locationProvider, $routeProvider, Location) {
         'use strict';

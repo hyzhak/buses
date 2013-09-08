@@ -3,10 +3,11 @@
  * Copyright (c) 2013, Eugene-Krevenets
  */
 
-digiletme.controller('MapCtrl', ['VenuesAPI', 'Location', '$scope', '$rootScope', '$timeout', '$q', function(VenuesAPI, LocationService, $scope, $rootScope, $timeout, $q) {
+digiletme.controller('MapCtrl', ['VenuesAPI', 'Location', '$scope', '$rootScope', '$timeout', '$q', 'DEF_ZOOM', function(VenuesAPI, LocationService, $scope, $rootScope, $timeout, $q, DEF_ZOOM) {
     'use strict';
 
-    $scope.center = {};
+    $scope.center = {
+    };
 
     $scope.markers = {};
 
@@ -138,8 +139,13 @@ digiletme.controller('MapCtrl', ['VenuesAPI', 'Location', '$scope', '$rootScope'
     /**
      * @private
      */
+    var firstPlaceToCurrentPosition = true;
     function placeToCurrentPosition() {
        return LocationService.getLocation().then(function(loc) {
+           if (firstPlaceToCurrentPosition) {
+               firstPlaceToCurrentPosition = false;
+               $scope.center.zoom =  DEF_ZOOM;
+           }
            $scope.center.lat = loc.lat;
            $scope.center.lng = loc.lng;
            return loc;
