@@ -2943,6 +2943,11 @@ digiletme.controller('RoutingCtrl', ['$scope', '$rootScope', 'VenuesAPI', 'Locat
     var storedScrollY = 0;
 
     $rootScope.$on('$routeChangeStart', function(event, next, current) {
+        if (googleAnalytics) {
+            console.log('googleAnalytics');
+            googleAnalytics('send', 'pageview');
+        }
+
         document.body.style.overflowY = 'auto';
         if (storedScrollY) {
             $window.scrollTo(0, storedScrollY);
@@ -2960,6 +2965,7 @@ digiletme.controller('RoutingCtrl', ['$scope', '$rootScope', 'VenuesAPI', 'Locat
                 Location.getLocation().then(function(location) {
                     $location.path('location/' + location.zoom + '/' + location.lat + '/' + location.lng + '/' + next.params.venueId);
                 });
+
                 break;
             case 'photo':
                 $rootScope.$broadcast('selectPhoto', next.params.photoId);
