@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+  <title></title>
+</head>
+<body>
+  <leaflet id="map" markers="markers" center="center" events="events" width="200" height="200">
+
+  </leaflet>
+
+
+  <button onclick="clickHandler.bind(this)()">Download</button>
+  <input type="text" onblur="blurHandler.bind(this)()">
+  <progress min="0" max="100" value="10">0% complete</progress>
+  <script>
+    function clickHandler() {
+      console.log(this);
+      console.log(encodeURIComponent('Hello World!'));
+      window.location.href ='data:text/csv;charset=UTF-8,' + encodeURIComponent('Hello World!');
+    }
+
+    function blurHandler() {
+      console.log('blur');
+      console.log(this);
+    }
+  </script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.js"></script>
+  <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular.js"></script>-->
+  <!--<script src="bower_components/angular-unstable/angular.js"></script>-->
+  <!--<script src="bower_components/angular-resource-unstable/angular-resource.js"></script>-->
+
+  <!--<script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
+  <script src="bower_components/angular-leaflet/dist/angular-leaflet-directive.min.js"></script>-->
+
+  <script>
+    angular.module('app', [])
+        .config(['$routeProvider', function($routeProvider) {
+          console.log('config');
+          $routeProvider
+              .when('/test/:id', {
+                text: 'test'
+              }).
+              otherwise({redirectTo: '/phones'});
+        }])
+        .run(['$location', '$browser', '$rootScope', function($location, $browser, $rootScope) {
+          console.log('$browser.url()', $browser.url());
+
+          $rootScope.$on('$routeChangeStart', function(event, next, current) {
+            console.log('$routeChangeStart', next, current);
+            if(next.access){
+              //Do Stuff
+            }
+            else{
+              //This will load the current route first (ie: '/home'), and then
+              //redirect the user to the correct 'login' route.
+            }
+          });
+        }])
+        .run(['$location', function($location) {
+          console.log('$location.path()', $location.path());
+        }]);
+  </script>
+  <div ng-view></div>
+</body>
+</html>

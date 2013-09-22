@@ -1,0 +1,12 @@
+temp
+dist
+node_modules
+bower_components
+build
+docs
+/.idea
+/*.iml
+/*.log
+/**/.sass-cache
+/**/*.iml
+atlassian-ide-plugin.xml

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ru" ng-app="digiletme">
+<head>
+  <title>Bus stations near your</title>
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" type="text/css" media="screen" href="css/bootstrap-glyphicons.css"/>
+  <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+  <!--<link rel="stylesheet" type="text/css" media="screen" href="css/bootstrap.css"/>-->
+  <!--<link rel="stylesheet" type="text/css" media="screen" href="css/docs.css"/>-->
+
+  <link rel="stylesheet" type="text/css" media="screen" href="css/style.css"/>
+  <link rel="image_src" href="https://lh3.googleusercontent.com/-kJY9c-IEkXY/UizFHtSMENI/AAAAAAAAhAE/gddUw_MBGYo/s0/2013-09-08_20-41-03.png" />
+
+  <!--mobile-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+
+  <!--map-->
+  <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.css" />
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.ie.css" />
+  <![endif]-->
+
+  <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+
+  <meta name="description" content="Schedule and location of buses around you.">
+  <link rel="author" href="https://plus.google.com/109947886575868463460"/>
+
+  <!--social meta tags-->
+  <meta property="og:title" content="Schedule and location of buses around you.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://lh3.googleusercontent.com/-kJY9c-IEkXY/UizFHtSMENI/AAAAAAAAhAE/gddUw_MBGYo/s0/2013-09-08_20-41-03.png">
+  <meta property="og:see_also" content="http://hyzhak.github.io">
+  <meta property="og:description" content="Schedule and location of buses around you.">
+
+  <meta property="twitter:card" content="https://lh3.googleusercontent.com/-kJY9c-IEkXY/UizFHtSMENI/AAAAAAAAhAE/gddUw_MBGYo/s0/2013-09-08_20-41-03.png">
+  <meta property="twitter:title" content="Schedule and location of buses around you.">
+  <meta property="twitter:description" content="Schedule and location of buses around you.">
+  <meta property="twitter:image" content="https://lh3.googleusercontent.com/-kJY9c-IEkXY/UizFHtSMENI/AAAAAAAAhAE/gddUw_MBGYo/s0/2013-09-08_20-41-03.png">
+
+
+</head>
+<body>
+  <div ng-controller="RoutingCtrl"></div>
+  <div ng-view></div>
+
+  <article class="map-result" ng-controller="MapCtrl">
+    <leaflet id="map" markers="markers" center="center" events="events" custom-controls="myCustomControls">
+    </leaflet>
+  </article>
+
+  <div class="search-result" ng-controller="SearchResultCtrl" ng-cloak>
+    <section ng-repeat="venue in venues" class="info-section" id="venue-{{ venue.id }}">
+      <div ng-show="venue.visible" ng-if="venue">
+        <a ng-href="#!/venue/{{ venue.id }}">
+          <img ng-src="{{ concat4SQImg(venue.categories[0].icon) }}" style="float: left;margin: 16px"/>
+        </a>
+        <h3>{{ venue.name }}</h3>
+        <p>Address: {{ getAddressOfVenue(venue) }}, <a ng-href="{{ venue.canonicalUrl }}" target="_blank">add photos by 4sq</a></p>
+        <carousel data="getPhotosOfVenue(venue)" venue="venue" preview-width="100" preview-height="100">
+        </carousel>
+      </div>
+    </section>
+
+    <section ng-show="hasVenuesWithoutPhotos" ng-cloak>
+      <h1>Need to add photos</h1>
+      <ul>
+        <div ng-repeat="venue in venuesWithoutPhotos">
+          <li ng-if="venue">
+            <a ng-href="{{ venue.canonicalUrl }}" target="_blank">
+              {{ venue.name }} / {{ getAddressOfVenue(venue) }}
+            </a>
+          </li>
+        </div>
+      </ul>
+    </section>
+    <section ng-show="waitForVenuesWithPhotos">
+      <div class="bg-with-progress-animation text-center">
+          Loading...
+      </div>
+    </section>
+  </div>
+  <article class="welcome-page">
+    <h1>Welcome!</h1>
+    <img itemprop="image" src="https://lh3.googleusercontent.com/-kJY9c-IEkXY/UizFHtSMENI/AAAAAAAAhAE/gddUw_MBGYo/s0/2013-09-08_20-41-03.png" style="display: none"/>
+    <p itemprop="description">This is schedule and location of buses around you."</p>
+    <p>
+      Everybody often ask me about schedule of buses. <i>“Hey man! Do you know when I can get bus from A to B?”</i>
+      Yes I have schedule of many <a target=”_blank” href=”picasaweb.google.com/109947886575868463460/MontenegroInfo”>
+      buses of Montenegro</a>. But I haven't schedules of all the world buses. So I decide to create one web-services
+      for the weekend that can provide schedule of any bus from any part of the World.</p>
+    <p>
+      After quick research I realize that there are already exist one famous web-service with same functionality and
+      more – it's <a target="_blank" href="http://foursquare.com">foursquare.com (4sq)</a>. I don't want reinvent stuff
+      but like to create something new – so I create one web-service but upon 4sq and with special filter for special
+      issue – And it provides all bus station near you with photos that attached for that bus stations and do it with
+      geo-mapping.
+    </p>
+    <h3>How I can help this project?</h3>
+    </p>
+    As you understand this page is just experiment (<a target="_blank" href="http://en.wikipedia.org/wiki/Minimum_viable_product">
+    MVP</a>) to get experience with real auditory.
+    </p>
+    <p>
+      So if you think that this project is interesting and can help you or maybe you like it – just push the 'like'
+      and share information between your friends. As well don’t forget adding photos with schedule of buses to 4sq we
+      all need them.
+    </p>
+    <h3>Under the hood</h3>
+    <ul>
+      <li><a href="http://angularjs.org" target="_blank">AngularJS</a></li>
+      <li><a href="http://leafletjs.com" target="_blank">Leaflet</a> on angularJS directives</li>
+      <li>Self written <a href="https://developer.foursquare.com/docs/">4sq</a> API service</li>
+      <li><a href="http://eightmedia.github.io/hammer.js/" target="_blank">Hammer.js</a> for support touch events</li>
+      <li>Twitter <a href="http://getbootstrap.com/" target="_blank">bootstrap</a></li>
+    </ul>
+    <h3>Other project</h3>
+    <a href="http://hyzhak.github.io">hyzhak.github.io</a>
+  </article>
+
+  <article class="welcome-page">
+    <h1>Добро пожаловать!</h1>
+    <p>
+      Меня часто спрашивали — <i>а как доехать из пункта А в пункт Б?</i> В конце концов мне это надоело, поэтому решил
+      создать свой веб-сервис, где можно было бы шарить расписания и смотреть существующие.
+    </p>
+    <p>
+      После небольшого исследования, понял, что почти такой же функциональностью обладает
+      <a target="_blank" href="http://foursquare.com">foursquare.com (4sq)</a>. Чтобы не создавать лишних сущностей,
+      решил специализированный сервис-фильтр, который берет вполне определенные данные с 4sq — фото с автобусных
+      остановок, и предоставляет их вместе с гео-привязкой.
+    </p>
+    <h3>Как помочь проекту?</h3>
+    </p>
+      Эта страница всего лишь эксперимент (<a target="_blank" href="http://en.wikipedia.org/wiki/Minimum_viable_product">
+      MVP</a>) чтобы выяснить реальную потребность в подобном сервисе.
+    </p>
+    <p>
+      Так что, если вы считаете этот проект нужным, смело жмите 'like'. И добавляйте фотографии с актуальными
+      расписаниями в 4sq.
+    </p>
+  </article>
+
+  <article class="like-section">
+    <!-- Social buttons -->
+    <div class="">
+      <div style="width: 140px;" class="g-plusone" data-size="medium" data-annotation="inline" data-width="140" data-href="https://www.facebook.com/pages/digiletme/381898005266088"></div>
+      <div style="width: 120px; display: inline-block;">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-lang="en">Tweet</a>
+      </div>
+      <div style="width: 120px;" class="fb-like" data-href="https://www.facebook.com/pages/digiletme/381898005266088" data-send="false" data-layout="button_count" data-width="120" data-show-faces="true" data-font="arial" data-colorscheme="light"></div>
+    </div>
+  </article>
+
+  <article class="statistics" ng-controller="StatisticsCtrl">
+      <div>
+          Requests to FourSquare: {{ numOfRequest }}
+      </div>
+  </article>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular.js"></script>
+  <script src="http://code.angularjs.org/1.2.0rc1/angular-route.js"></script>
+  <script src="http://code.angularjs.org/1.2.0rc1/angular-resource.js"></script>
+
+  <!--<script src="libs/leaflet-src.js"></script>-->
+  <script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
+
+
+  <!-- @ifdef DEBUG=true -->
+  <script src="bower_components/hammerjs/dist/hammer.js"></script>
+  <script src="bower_components/hammerjs/plugins/hammer.showtouches.js"></script>
+  <script src="bower_components/hammerjs/plugins/hammer.fakemultitouch.js"></script>
+  <script src="libs/angular-hammer.js"></script>
+  <script src="bower_components/angular-leaflet/src/angular-leaflet-directive.js"></script>
+
+  <script src="js/requestAnimFrame.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/foursquare.js"></script>
+  <script src="js/venues.js"></script>
+  <script src="js/foursquarePhoto.js"></script>
+  <script src="js/carousel.js"></script>
+  <script src="js/location.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/photo.js"></script>
+  <script src="js/map.js"></script>
+  <script src="js/stat.js"></script>
+  <script src="js/smartip.js"></script>
+  <!-- @endif -->
+
+  <!-- @ifndef DEBUG=false -->
+  <script src="js/buses.min.js"></script>
+  <!-- @endif -->
+
+  <!-- Latest compiled and minified JavaScript -->
+  <!--<script src="http://code.jquery.com/jquery.js"></script>-->
+  <!--<script src="libs/bootstrap.min.js"></script>-->
+
+  <!--Social Code -->
+
+  <!-- G+ -->
+  <script type="text/javascript">
+    (function() {
+      var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+      po.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+    })();
+  </script>
+
+  <!-- Twitter -->
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+  <!-- Twitter Follow.me -->
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+  <!-- Facebook -->
+  <div id="fb-root"></div>
+  <script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "http://connect.facebook.net/en_US/all.js#xfbml=1&appId=460658387336825";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));</script>
+
+  <!-- Google Analytics -->
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','googleAnalytics');
+
+    googleAnalytics('create', 'UA-38043860-5', {
+      'siteSpeedSampleRate': 100
+    });
+    googleAnalytics('send', 'pageview');
+
+    window.onerror = function(msg, url, line) {
+      var preventErrorAlert = true;
+      googleAnalytics('send', 'event', 'JS Error', msg, navigator.userAgent + ' -> ' + url + " : " + line, line);
+      console.log('send event JS Error ' + msg + ' ' + navigator.userAgent + ' -> ' + url + " : " + line);
+      return preventErrorAlert;
+    };
+
+  </script>
+</body>
+</html>

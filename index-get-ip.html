@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script type="text/javascript">
+        window.onload = function () {
+            jsonp("http://jsonip.appspot.com/?callback=displayIP");
+            jsonp("http://smart-ip.net/geoip-json/?callback=displaySmartIP");
+        };
+
+        function jsonp(request) {
+            var script = document.createElement("script");
+            script.type = "text/javascript";
+            script.src = request;
+            document.getElementsByTagName("head")[0].appendChild(script);
+        }
+
+        function displayIP(response) {
+            console.log(response);
+            document.getElementById("ipaddress").innerHTML += "<br/>displayIP: Your IP Address is " + response.ip;
+
+            jsonp("http://www.geoplugin.net/json.gp?ip="+response.ip+"&jsoncallback=displayLoc");
+        }
+
+        function displayLoc(response) {
+            console.log(response);
+            document.getElementById("ipaddress").innerHTML += "<br/>displayLoc: Your Corrds " + response.geoplugin_latitude + ", " + response.geoplugin_longitude;
+        }
+
+        function displaySmartIP(response) {
+            console.log(response);
+            document.getElementById("ipaddress").innerHTML += "<br/>displaySmartIP: Your Coords " + response.latitude + ", " + response.longitude;
+        }
+    </script>
+</head>
+<body>
+<form>
+    <span id = "ipaddress"></span>
+</form>
+</body>
+</html>

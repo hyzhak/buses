@@ -1,0 +1,27 @@
+{
+  "name": "buses",
+  "shortName": "buses",
+  "version": "0.1.0",
+  "description": "Buses near your",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "schedule",
+    "of",
+    "buses"
+  ],
+  "author": "hyzhak",
+  "license": "BSD-2-Clause",
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-uglify": "~0.2.4",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-contrib-copy": "~0.4.1",
+    "grunt-github-pages": "0.0.3",
+    "grunt-git-deploy": "~0.1.1",
+    "grunt-preprocess": "~3.0.1"
+  }
+}

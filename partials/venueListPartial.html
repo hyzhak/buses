@@ -1,0 +1,109 @@
+<article class="map-result" ng-controller="MapCtrl">
+    <leaflet id="map" markers="markers" center="center" events="events" custom-controls="myCustomControls">
+    </leaflet>
+</article>
+
+<div class="search-result" ng-controller="SearchResultCtrl" ng-cloak>
+    <section ng-repeat="venue in venues" class="info-section" id="venue-{{ venue.id }}">
+        <div ng-show="venue.visible" ng-if="venue">
+            <a ng-href="#!/venue/{{ venue.id }}">
+                <img ng-src="{{ concat4SQImg(venue.categories[0].icon) }}" style="float: left;margin: 16px"/>
+            </a>
+            <h3>{{ venue.name }}</h3>
+            <!--<p>id: {{ venue.id }}</p>-->
+            <!--<p>name: {{ venue.name }}</p>-->
+            <p>Address: {{ getAddressOfVenue(venue) }}, <a ng-href="{{ venue.canonicalUrl }}">add photos by 4sq</a></p>
+
+            <!--<p>country: {{ venue.location.country }}</p>-->
+            <!--<p>location: {{ venue.location.lat }}, {{ venue.location.lng }}</p>
+            <p>categories: {{ venue.categories[0].name }}</p>-->
+
+
+            <!--<div ng-repeat="venueImagesGroup in getVenueById(venue.id).response.venue.photos.groups">-->
+            <carousel data="getPhotosOfVenue(venue)" venue="venue" preview-width="100" preview-height="100">
+            </carousel>
+            <!--</div>-->
+        </div>
+    </section>
+
+    <section ng-show="hasVenuesWithoutPhotos" ng-cloak>
+        <h1>Need to add photos</h1>
+        <ul>
+            <div ng-repeat="venue in venuesWithoutPhotos">
+                <li ng-if="venue">
+                    <a ng-href="{{ venue.canonicalUrl }}" target="_blank">
+                        {{ venue.name }} / {{ getAddressOfVenue(venue) }}
+                    </a>
+                </li>
+            </div>
+        </ul>
+    </section>
+    <section ng-show="waitForVenuesWithPhotos">
+        <div class="bg-with-progress-animation text-center">
+            Loading...
+        </div>
+    </section>
+</div>
+
+<article class="welcome-page">
+    <h1>Welcome!</h1>
+    <p>
+        This page is the just experiment (<a href="http://en.wikipedia.org/wiki/Minimum_viable_product">MVP</a>) to define is there any needs for such a projects or not.
+        So if you need it just set 'like' this page.
+    </p>
+
+    <h3>Quick description</h3>
+    <p>
+        Main goal of project - is to provide easy way to real word from web.
+    </p>
+    <p>
+        For example: any user without any authorization can get <strong>bus scheduling</strong>, get <strong>shopping hours</strong> information and other with geo location.
+    </p>
+    <p>
+        This service similar to FourSquare but have main difference - it's focused right on a needed information and to the photos. Also It avoids any gamification. So user return to this page not for checkin on new place, but for get information how to get from place A to place B. And when place B will be open.
+    </p>
+    <p>
+        Thanks for your time, see you!
+    </p>
+</article>
+
+<article class="welcome-page">
+    <h1>Добро пожаловать!</h1>
+    <p>
+        Эта страница всего лишь эксперимент (<a href="http://en.wikipedia.org/wiki/Minimum_viable_product">MVP</a>) чтобы выяснить реальную потребность в подобном проекте
+        Так что если вы считаете его нужным, смело жмите 'like'.
+    </p>
+
+    <h3>Краткое описание</h3>
+    <p>
+        Главная цель проекта - предоставлениие реального мира в виртуальном.
+    </p>
+    <p>
+        К примеру любой пользователь может без авторизации получить <strong>расписание автобусов</strong>, узнать <strong>часы работы магазина/организации</strong> и с привязкой к его гео локации.
+    </p>
+    <p>
+        Во многом Digilet.me похож на FourSquare но есть и значительные отличия - этот проект сфокусирован на действительно нужно информации, а так же избегает геймификации.
+        Таким образом пользватель будет возвращаться на страцицу не для того чтобы зачекиниться в новом месте, а чтобы узнать действительно полезную ему информацию,
+        к примеру, как попасть из пункта-А в пункт-Б. И когда пункт-А будет работь.
+    </p>
+    <p>
+        Спасибо за ваше время до встрече!
+    </p>
+</article>
+
+<article class="like-section">
+    <!-- Social buttons -->
+    <div class="">
+        <div style="width: 140px;" class="g-plusone" data-size="medium" data-annotation="inline" data-width="140" data-href="https://www.facebook.com/pages/digiletme/381898005266088"></div>
+        <div style="width: 120px; display: inline-block;">
+            <a href="https://twitter.com/share" class="twitter-share-button" data-lang="en">Tweet</a>
+        </div>
+        <div style="width: 120px;" class="fb-like" data-href="https://www.facebook.com/pages/digiletme/381898005266088" data-send="false" data-layout="button_count" data-width="120" data-show-faces="true" data-font="arial" data-colorscheme="light"></div>
+    </div>
+</article>
+
+<article class="statistics" ng-controller="StatisticsCtrl">
+    <div>
+        Requests to FourSquare: {{ numOfRequest }}
+    </div>
+</article>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <style>
+        .first:after {
+            color: red;
+            background-color:yellow;
+            content: "Hey! " attr(data-title) " ?";
+        }
+    </style>
+</head>
+<body>
+    <div class="first" data-title="Hello World!">
+        first
+        <p>
+            p
+        </p>
+    </div>
+    <div class="second">
+        second
+        <p>
+            p
+        </p>
+    </div>
+    <div class="third">
+        third
+        <p>
+            p
+        </p>
+    </div>
+</body>
+</html>

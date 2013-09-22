@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html ng-app>
+<head>
+    <title></title>
+    <style>
+        .title:after {
+            color: red;
+            font-style: italic;
+            content: attr(data-title);
+        }
+    </style>
+</head>
+<body>
+    <div ng-controller="TextCtrl">
+        <div ng-repeat="item in items">
+            <span data-title="{{ item.name }}" class="title">{{ item.name }}</span>
+            <span>{{ item.value }}</span>
+        </div>
+    </div>
+    <script src="bower_components/angular/angular.js"></script>
+    <script>
+        function TextCtrl($scope) {
+            $scope.items = {};
+            $scope.items['z'] = {name: 'zzz!', value:'zzz!'};
+            $scope.items['a'] = null;
+            $scope.items['b'] = {name: 'bye!', value:'world!'};
+            $scope.items['_'] = null;
+            $scope.items['2'] = {name: '2', value:'2'};
+        }
+    </script>
+</body>
+</html>
